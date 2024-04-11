@@ -72,29 +72,86 @@ public class StringOps {
     }
 
     public static String camelCase(String string) {
+        char space = ' ';
+        String cutword = "";
         String Newword = "";
-        String Finalword = "";
+        String finalWord = "";
+        int start = 0;
         for (int i = 0; i < string.length(); i++) {
-            char cur = string.charAt(i);
-            if (cur < 97 && cur > 64) {
-                cur += 32;
-                Newword += cur;
-            } else if (cur > 96 && cur < 123) {
-                Newword += cur;
+            if (string.charAt(i) == space) {
+                cutword = string.substring(start, i);
+                cutword = orgenizedcutword(cutword);
+                start = i + 1;
+                while (string.charAt(start) == space) {
+                    start++;
+                    i++;
+                }
+                Newword += cutword;
+            }
+            if (i == string.length() - 1) {
+                cutword = string.substring(start);
+                cutword = orgenizedcutword(cutword);
+                Newword += cutword;
             }
         }
 
-        for (int u = 0; u < Newword.length(); u++) {
-            char curNew = Newword.charAt(u);
-            if (u == 0) {
-                curNew -= 32;
+        for (int i = 0; i < Newword.length(); i++) {
+            char newCur = Newword.charAt(i);
+            if (i == 0) {
+                newCur += 32;
             }
-            Finalword += curNew;
+            finalWord += newCur;
         }
-
-        return Finalword;
+        return finalWord;
     }
 
+    public static String orgenizedcutword(String cutword) {
+        String newcutword = "";
+        for (int i = 0; i < cutword.length(); i++) {
+            char cur = cutword.charAt(i);
+            if (i == 0) {
+                if (cur > 96 && cur < 123) {
+                    cur -= 32;
+                }
+            } else if (cur < 97 && cur > 64) {
+                cur += 32;
+            }
+            newcutword += cur;
+        }
+        return newcutword;
+    }
+
+    /*
+     * public static String camelCase(String string) {
+     * String Newword = "";
+     * String Finalword = "";
+     * boolean beforeWord = true;
+     * boolean seenFrisrWord = false;
+     * for (int i = 0; i < string.length(); i++) {
+     * char cur = string.charAt(i);
+     * if (cur == ' ') {
+     * beforeWord = true;
+     * } else if (cur < 97 && cur > 64) { // uppercase
+     * cur += 32; // to lower
+     * Newword += cur;
+     * beforeWord = false;
+     * } else if (cur > 96 && cur < 123) { // lowercase
+     * Newword += cur;
+     * beforeWord = false;
+     * }
+     * }
+     * 
+     * for (int u = 0; u < Newword.length(); u++) {
+     * char curNew = Newword.charAt(u);
+     * if (u == 0) {
+     * curNew -= 32;
+     * }
+     * Finalword += curNew;
+     * }
+     * 
+     * return Finalword;
+     * }
+     */
     public static int[] allIndexOf(String string, char chr) {
         int arraysizecount = arraysize(string, chr);
         int[] array = new int[arraysizecount];
